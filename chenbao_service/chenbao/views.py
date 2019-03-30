@@ -93,3 +93,7 @@ def get_chenbao_list(chat_content):
         chenbao_list.append({'name': name, 'content': content})
 
     return chenbao_list
+
+
+def run(request, **kwargs):
+    return render(request, 'index.html')

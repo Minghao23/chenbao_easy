@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^update', views.update_absent_persons),
     url(r'^check', views.check_chat_content),
     url(r'^generate', views.generate_email),
+    url(r'^', views.run),
 ]

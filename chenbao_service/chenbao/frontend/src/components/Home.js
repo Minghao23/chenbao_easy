@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.req_host = '0.0.0.0';
+        this.req_host = '127.0.0.1';
         this.req_port = '8012';
 
         this.state = this.getInitialState();
@@ -188,8 +188,14 @@ export default class Home extends Component {
             this.setState({
                 modal_loading: false
             });
-            message.error("假的，该功能暂未上线。预计于v2.0版本发布。")
+            message.success("已发送");
         }, 2000);
+        setTimeout(() => {
+            message.error("假的，愚人节快乐！");
+        }, 5000);
+        setTimeout(() => {
+            message.error("该功能预计于v2.0版本上线")
+        }, 8000);
     };
 
     handleModalReturn = () => {

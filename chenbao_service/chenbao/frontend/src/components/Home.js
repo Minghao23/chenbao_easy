@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {  message, Tooltip, Layout, Typography, Popconfirm, Modal, AutoComplete, Tag, Alert, Icon, Button, Form, Input} from 'antd';
+import { message, Tooltip, Layout, Typography, Popconfirm, Modal, AutoComplete, Tag, Alert, Icon, Button, Form, Input} from 'antd';
 import "antd/dist/antd.css";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.req_host = '127.0.0.1';
+        this.req_host = '192.168.1.160';
         this.req_port = '8012';
 
         this.state = this.getInitialState();
@@ -191,7 +191,7 @@ export default class Home extends Component {
             message.success("已发送");
         }, 2000);
         setTimeout(() => {
-            message.error("假的，愚人节快乐！");
+            message.error("哈哈哈骗你的！");
         }, 5000);
         setTimeout(() => {
             message.error("该功能预计于v2.0版本上线")
@@ -341,7 +341,7 @@ export default class Home extends Component {
                                            <p>{this.state.remaining_persons.map(
                                                (person) => person + ' ')}</p>
                                            <p><Text copyable={{
-                                               text: this.state.remaining_persons.map((person) => '@' + person)
+                                               text: this.state.remaining_persons.map((person) => '@' + person) + "（QQ目前不支持拷贝@操作，仍需要手动@）"
                                            }}>（复制到QQ）</Text></p>
                                        </div>
                                    }/>
@@ -384,7 +384,6 @@ export default class Home extends Component {
                                               value={this.state.email_message}
                                               onChange={this.handleEmailMessageChange}
                                     />
-                                    <Text copyable={{ text: this.state.email_message }}/>
                                 </Form.Item>
                             </Form>
                         </Modal>

@@ -1,12 +1,28 @@
 import React, {Component} from 'react';
-import {  message, Tooltip, Layout, Typography, Popconfirm, Modal, AutoComplete, Tag, Alert, Icon, Button, Form, Input} from 'antd';
+import {
+    message,
+    Tooltip,
+    Layout,
+    Typography,
+    Popconfirm,
+    Modal,
+    AutoComplete,
+    Tag,
+    Alert,
+    Icon,
+    Button,
+    Form,
+    Input
+} from 'antd';
 import "antd/dist/antd.css";
+import {MyHeader, MyFooter} from "./MyLayout"
+import {host, port} from "./config"
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        this.req_host = '127.0.0.1';
-        this.req_port = '8012';
+        this.req_host = host;
+        this.req_port = port;
 
         this.state = this.getInitialState();
         this.getData();
@@ -36,7 +52,7 @@ export default class Home extends Component {
 
     getData() {
         let endpoint = 'init';
-        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint,{
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
             method: 'GET'
         }).then(res => res.json()).then(
             data => {
@@ -45,20 +61,20 @@ export default class Home extends Component {
                     absent_persons: data.absent_persons
                 });
             }
-        ).catch((err) =>message.error("Server error!", err))
+        ).catch((err) => message.error("Server error!", err))
     }
 
     updateAbsentPersons(cur_absent_persons) {
         let endpoint = 'update';
-        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint,{
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
             method: 'POST',
             body: JSON.stringify({'absent_persons': cur_absent_persons})
-        }).catch((err) =>message.error("Server error!", err))
+        }).catch((err) => message.error("Server error!", err))
     }
 
     checkContent(payload) {
         let endpoint = 'check';
-        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint,{
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
             method: 'POST',
             body: JSON.stringify(payload)
         }).then(res => res.json()).then(
@@ -67,12 +83,12 @@ export default class Home extends Component {
                     remaining_persons: data.remaining_persons
                 });
             }
-        ).catch((err) =>message.error("Server error!", err))
+        ).catch((err) => message.error("Server error!", err))
     }
 
     generateEmail(payload) {
         let endpoint = 'generate';
-        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint,{
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
             method: 'POST',
             body: JSON.stringify(payload)
         }).then(res => res.json()).then(
@@ -84,12 +100,12 @@ export default class Home extends Component {
                     email_message: data.message,
                 });
             }
-        ).catch((err) =>message.error("Server error!", err))
+        ).catch((err) => message.error("Server error!", err))
     }
 
     beforeGenerateEmail(payload) {
         let endpoint = 'check';
-        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint,{
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
             method: 'POST',
             body: JSON.stringify(payload)
         }).then(res => res.json()).then(
@@ -104,10 +120,10 @@ export default class Home extends Component {
                     this.handlePopConfirmConfirm();
                     message.info("不可思议！所有人都发了晨报！")
                 } else {
-                    this.setState({ popconfirm_visible: true });
+                    this.setState({popconfirm_visible: true});
                 }
             }
-        ).catch((err) =>message.error("Server error!", err))
+        ).catch((err) => message.error("Server error!", err))
     }
 
     // ----------------
@@ -163,14 +179,16 @@ export default class Home extends Component {
     handleCheckButton = () => {
         const payload = {
             'chat_content': this.state.chat_content,
-            'absent_persons': this.state.absent_persons};
+            'absent_persons': this.state.absent_persons
+        };
         this.checkContent(payload);
     };
 
     handleGenerateButton = () => {
         const payload = {
             'chat_content': this.state.chat_content,
-            'absent_persons': this.state.absent_persons};
+            'absent_persons': this.state.absent_persons
+        };
         this.generateEmail(payload);
         this.handleShowModal();
     };
@@ -183,7 +201,7 @@ export default class Home extends Component {
 
     handleModalSendEmail = () => {
         // TODO Really send email
-        this.setState({ modal_loading: true });
+        this.setState({modal_loading: true});
         setTimeout(() => {
             this.setState({
                 modal_loading: false
@@ -191,7 +209,7 @@ export default class Home extends Component {
             message.success("已发送");
         }, 2000);
         setTimeout(() => {
-            message.error("假的，愚人节快乐！");
+            message.error("哈哈哈骗你的！");
         }, 5000);
         setTimeout(() => {
             message.error("该功能预计于v2.0版本上线")
@@ -199,7 +217,7 @@ export default class Home extends Component {
     };
 
     handleModalReturn = () => {
-        this.setState({ modal_visible: false });
+        this.setState({modal_visible: false});
     };
 
     handleEmailToChange = (e) => {
@@ -227,17 +245,17 @@ export default class Home extends Component {
     };
 
     handlePopConfirmConfirm = () => {
-        this.setState({ popconfirm_visible: false });
+        this.setState({popconfirm_visible: false});
         this.handleGenerateButton();
     };
 
     handlePopConfirmCancel = () => {
-        this.setState({ popconfirm_visible: false });
+        this.setState({popconfirm_visible: false});
     };
 
     handlePopConfirmVisibleChange = (visible) => {
         if (!visible) {
-            this.setState({ popconfirm_visible: visible });
+            this.setState({popconfirm_visible: visible});
             return;
         }
         const payload = {
@@ -255,50 +273,48 @@ export default class Home extends Component {
 
     render() {
 
-        const { TextArea } = Input;
+        const {TextArea} = Input;
 
-        const { Text } = Typography;
+        const {Text} = Typography;
 
-        const { Header, Content, Footer } = Layout;
+        const {Content} = Layout;
 
         return (
             <Layout className="layout">
-                <Header className='header'>
-                    <Icon type="schedule" theme="filled" />
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='title'><b>晨报易</b></span>
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='subtitle'>晨报处理更容易</span>
-                </Header>
+                <MyHeader/>
                 <Content className="content">
                     <div>
                         <div className='form_area'>
                             <Form.Item>
                                 <h1 className="label">
-                                    <Tooltip placement="bottomLeft" style={{ width: "300px" }} title={<span>以姓名开头的QQ消息被认为是有效的晨报<br/>复制时请尽量避免遗漏内容</span>}>
-                                        <span><Icon type="file-text" />&nbsp;&nbsp;聊天记录</span>
+                                    <Tooltip placement="bottomLeft" style={{width: "300px"}}
+                                             title={<span>以姓名开头的QQ消息被认为是有效的晨报<br/>复制时请尽量避免遗漏内容</span>}>
+                                        <span><Icon type="file-text"/>&nbsp;&nbsp;聊天记录</span>
                                     </Tooltip>
                                 </h1>
                                 <label>在这里复制晨报群里今天所有的QQ聊天记录，晨报易会自动检测和去除无关内容，重新排版并生成邮件</label>
-                                <div className="clear_icon_area"><Icon onClick={this.handleClearIcon} type="delete" /></div>
-                                <TextArea rows={10} placeholder="Content in QQ group" style={{ resize: 'none' }}
+                                <div className="clear_icon_area"><Icon onClick={this.handleClearIcon} type="delete"/>
+                                </div>
+                                <TextArea rows={10} placeholder="Content in QQ group" style={{resize: 'none'}}
                                           value={this.state.chat_content}
                                           onChange={this.handleContentChange}/>
                             </Form.Item>
                             <Form.Item>
                                 <h1 className="label">
                                     <Tooltip placement="bottomLeft" title="对请假人员的修改将会被保存">
-                                        <span><Icon type="user" />&nbsp;&nbsp;请假人员</span>
+                                        <span><Icon type="user"/>&nbsp;&nbsp;请假人员</span>
                                     </Tooltip>
                                 </h1>
                                 {this.state.absent_persons.map((person) => {
                                     return <Tag key={person} color="red" closable
-                                                onClose={(e)=>{this.handleCloseTag(e, person)}}>{person}</Tag>
+                                                onClose={(e) => {
+                                                    this.handleCloseTag(e, person)
+                                                }}>{person}</Tag>
                                 })}
                                 {this.state.tag_input_visible && (
                                     <AutoComplete
                                         dataSource={this.state.data_source}
-                                        style={{ width: 100 }}
+                                        style={{width: 100}}
                                         onSelect={this.handleSelect}
                                         onSearch={this.handleSearch}
                                         onBlur={this.handleTagInputCancel}
@@ -310,9 +326,9 @@ export default class Home extends Component {
                                     <Tag
                                         color="red"
                                         onClick={this.showTagInput}
-                                        style={{ background: '#fff', borderStyle: 'dashed' }}
+                                        style={{background: '#fff', borderStyle: 'dashed'}}
                                     >
-                                        <Icon type="plus" /> Person
+                                        <Icon type="plus"/> Person
                                     </Tag>
                                 )}
                             </Form.Item>
@@ -341,7 +357,7 @@ export default class Home extends Component {
                                            <p>{this.state.remaining_persons.map(
                                                (person) => person + ' ')}</p>
                                            <p><Text copyable={{
-                                               text: this.state.remaining_persons.map((person) => '@' + person)
+                                               text: this.state.remaining_persons.map((person) => '@' + person) + "（QQ目前不支持拷贝@操作，仍需要手动@）"
                                            }}>（复制到QQ）</Text></p>
                                        </div>
                                    }/>
@@ -356,7 +372,8 @@ export default class Home extends Component {
                             onCancel={this.handleModalReturn}
                             footer={[
                                 <Button key="back" onClick={this.handleModalReturn}>返回</Button>,
-                                <Button key="submit" type="primary" loading={this.state.modal_loading} onClick={this.handleModalSendEmail}>
+                                <Button key="submit" type="primary" loading={this.state.modal_loading}
+                                        onClick={this.handleModalSendEmail}>
                                     发送邮件
                                 </Button>
                             ]}
@@ -365,34 +382,31 @@ export default class Home extends Component {
                             maskClosable={false}
                             destroyOnClose
                         >
-                            <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }}>
+                            <Form labelCol={{span: 4}} wrapperCol={{span: 16}}>
                                 <Form.Item label="收件人">
                                     <Input value={this.state.email_to} onChange={this.handleEmailToChange}
-                                           suffix={<Text copyable={{ text: this.state.email_to }}/>}/>
+                                           suffix={<Text copyable={{text: this.state.email_to}}/>}/>
                                 </Form.Item>
                                 <Form.Item label="抄送">
                                     <Input value={this.state.email_cc} onChange={this.handleEmailCcChange}
-                                           suffix={<Text copyable={{ text: this.state.email_cc }}/>}/>
+                                           suffix={<Text copyable={{text: this.state.email_cc}}/>}/>
                                 </Form.Item>
                                 <Form.Item label="主题">
                                     <Input value={this.state.email_subject} onChange={this.handleEmailSubjectChange}
-                                           suffix={<Text copyable={{ text: this.state.email_subject }}/>}/>
+                                           suffix={<Text copyable={{text: this.state.email_subject}}/>}/>
                                 </Form.Item>
                                 <Form.Item label="正文">
-                                    <TextArea style={{ resize: 'none' }}
+                                    <TextArea style={{resize: 'none'}}
                                               rows={10}
                                               value={this.state.email_message}
                                               onChange={this.handleEmailMessageChange}
                                     />
-                                    <Text copyable={{ text: this.state.email_message }}/>
                                 </Form.Item>
                             </Form>
                         </Modal>
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    Created by <a href={"https://www.minghao23.com"} target="_blank" rel="noopener noreferrer">Minghao Hu</a> ©2019
-                </Footer>
+                <MyFooter/>
             </Layout>
         );
     }

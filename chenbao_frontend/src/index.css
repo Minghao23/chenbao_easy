@@ -17,7 +17,16 @@ code {
 
 /*Customized*/
 
+.nav {
+}
+
 .header {
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+}
+
+.header_part {
   text-align: center;
   color: white;
   font-size: 1.5em;
@@ -33,6 +42,7 @@ code {
 
 .content {
   padding: 50px 20%;
+  min-height: 800px !important;
 }
 
 .label {
@@ -64,6 +74,18 @@ code {
   padding: 0 5px;
 }
 
-.ant-tooltip-content {
-  width: 300px;
+.stat_form_area {
+  text-align: center;
 }
+
+.page_title {
+  text-align: center;
+}
+
+.shortcut_button {
+  margin-left: 20px;
+}
+
+/*.ant-tooltip-content {*/
+  /*width: 300px;*/
+/*}*/

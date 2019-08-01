@@ -196,9 +196,9 @@ def test_generate():
 def test_person_stat():
     url = "http://%s:%s/person_stat" % (host, port)
     d = {
-        "name": "胡明昊",
-        "start_date": "20190722",
-        "end_date": "20190724",
+        "name": "孙文举",
+        "start_date": "20190702",
+        "end_date": "20190704",
     }
     payload = json.dumps(d, ensure_ascii=False)
     headers = {'content-type': "application/json"}
@@ -222,8 +222,8 @@ def test_person_history():
 def test_total_stat():
     url = "http://%s:%s/total_stat" % (host, port)
     d = {
-        "start_date": "20190722",
-        "end_date": "20190724",
+        "start_date": "20190617",
+        "end_date": "20190702",
     }
     payload = json.dumps(d, ensure_ascii=False)
     headers = {'content-type': "application/json"}
@@ -231,4 +231,4 @@ def test_total_stat():
     print response.text
 
 
-test_person_stat()
+test_total_stat()

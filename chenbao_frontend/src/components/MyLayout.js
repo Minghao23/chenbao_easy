@@ -47,7 +47,7 @@ export class MySider extends Component {
                     </Menu.Item>
                     <Menu.Item key="4">
                         <Link to="/TotalStat">
-                            <Icon type="bar-chart"/>
+                            <Icon type="pie-chart"/>
                             <span>全局统计</span>
                         </Link>
                     </Menu.Item>

@@ -23,12 +23,10 @@ export default class PersonStat extends Component {
         staffs: [],
         dates: [],
         send_times: [],
+        total_avg: '',
+        your_avg: '',
         you_diff: '',
-        total_average: '',
-        earliest_person: '',
-        earliest_diff: '',
-        latest_person: '',
-        latest_diff: '',
+        beyond_percentage: '',
     });
 
     // ----------------
@@ -69,12 +67,10 @@ export default class PersonStat extends Component {
                 this.setState({
                     dates: temp_dates,
                     send_times: temp_send_times,
+                    total_avg: data.total_avg,
+                    your_avg: data.your_avg,
                     you_diff: data.you_diff,
-                    total_average: data.total_average,
-                    earliest_person: data.earliest_person,
-                    earliest_diff: data.earliest_diff,
-                    latest_person: data.latest_person,
-                    latest_diff: data.latest_diff,
+                    beyond_percentage: data.beyond_percentage,
                 });
             }
         ).catch((err) => message.error("Server error!", err))
@@ -86,7 +82,6 @@ export default class PersonStat extends Component {
 
     handleFormSubmit = (inputs) => {
         const payload = {
-            // 'name': inputs.name,
             'name': inputs.name,
             'start_date': inputs.start_date,
             'end_date': inputs.end_date
@@ -122,12 +117,28 @@ export default class PersonStat extends Component {
     };
 
     colorTimeDiff = (diff) => {
+        if (diff === null) {
+            return ''
+        }
         if (diff[0] === '早') {
             return <span style={{color: "green"}}>{diff}</span>
         } else if (diff[0] === '晚') {
             return <span style={{color: "red"}}>{diff}</span>
         } else {
             return <span style={{color: "blue"}}>{diff}</span>
+        }
+    };
+
+    getPercentReply = (percentage) => {
+        if (percentage === null || percentage === '') {
+            return <br/>
+        }
+        if (parseInt(percentage) >= 50) {
+            return '保持住！不要忘了在晨报中写明 bug 处理情况哦！'
+        } else if (parseInt(percentage) === 0) {
+            return '原来你就是那个最后一个发晨报的！'
+        } else {
+            return '你晨报发的太晚了！争取成为前 50% 先！加油！'
         }
     };
 
@@ -143,6 +154,7 @@ export default class PersonStat extends Component {
         },
         yAxis: {
             type: 'value',
+            inverse: true,
             min: 0,
             max: 24 * 60 * 60,
             splitNumber: 8,
@@ -191,50 +203,36 @@ export default class PersonStat extends Component {
                             <StatForm staffs={this.state.staffs} handler={this.handleFormSubmit}/>
                             <br/>
                         </div>
-                        <div>
+                        <div className="card_area">
                             <Row>
-                                <Col span={8} style={{padding: 20}}>
+                                <Col span={12} style={{padding: 20}}>
                                     <ChartCard
-                                        title="全体员工平均发报时间"
-                                        total={this.state.total_average}
+                                        title="你的平均发报时间"
+                                        total={this.state.your_avg}
                                         footer={
                                             <div>
-                                                <span>您的发报时间比平均时间</span>
-                                                <br/>
+                                                <span>比总体平均时间</span>
                                                 {this.colorTimeDiff(this.state.you_diff)}
                                             </div>}
                                         contentHeight={46}
                                     />
                                 </Col>
-                                <Col span={8} style={{padding: 20}}>
+                                <Col span={12} style={{padding: 20}}>
                                     <ChartCard
-                                        title="日均发报时间最早员工"
-                                        total={this.state.earliest_person}
+                                        title="超过的员工比例"
+                                        total={this.state.beyond_percentage}
                                         footer={
                                             <div>
-                                                <span>比平均时间</span>
-                                                <br/>
-                                                {this.colorTimeDiff(this.state.earliest_diff)}
-                                            </div>}
-                                        contentHeight={46}
-                                    />
-                                </Col>
-                                <Col span={8} style={{padding: 20}}>
-                                    <ChartCard
-                                        title="日均发报时间最晚员工"
-                                        total={this.state.latest_person}
-                                        footer={
-                                            <div>
-                                                <span>比平均时间</span>
-                                                <br/>
-                                                {this.colorTimeDiff(this.state.latest_diff)}
+                                                {this.getPercentReply(this.state.beyond_percentage)}
                                             </div>}
                                         contentHeight={46}
                                     />
                                 </Col>
                             </Row>
                         </div>
+                        <br/>
                         <div className='chart_area'>
+                            <h3 className="page_title subtitle">个人发报时间曲线</h3>
                             <ReactEcharts  option={this.getOption()} style={{height: 400}}/>
                         </div>
                     </div>

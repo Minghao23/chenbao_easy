@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import ReactEcharts from 'echarts-for-react';
-import {message, Layout, DatePicker, Button} from 'antd';
+import {message, Layout, DatePicker, Button, Row, Col} from 'antd';
+import {ChartCard} from 'ant-design-pro/lib/Charts'
+import Trend from 'ant-design-pro/lib/Trend';
 import "antd/dist/antd.css";
 import moment from "moment";
 import {MyHeader, MyFooter} from "./MyLayout"
@@ -22,6 +24,13 @@ export default class TotalStat extends Component {
         dates: [],
         send_persons: [],
         absent_persons: [],
+        avg_send_time: [],
+        total_avg: '',
+        trend: '',
+        earliest_person: '',
+        earliest_diff: '',
+        latest_person: '',
+        latest_diff: '',
     });
 
     // ----------------
@@ -38,7 +47,14 @@ export default class TotalStat extends Component {
                 let temp_send_persons = [];
                 let temp_absent_persons = [];
                 let temp_dates = [];
+                let temp_avg_send_time = [];
                 for (let i = 0; i < data.date.length; i++) {
+                    let cur_time_value = moment(data.avg_send_time[i], 'HH:mm:ss');
+                    temp_avg_send_time.push(
+                        cur_time_value.hour() * 60 * 60 +
+                        cur_time_value.minute() * 60 +
+                        cur_time_value.second()
+                    );
                     temp_dates.push(moment(data.date[i], "YYYYMMDD").format("YYYY-MM-DD"));
                     temp_send_persons.push(data.sent_cb_person[i]);
                     temp_absent_persons.push(data.absent_person[i]);
@@ -47,6 +63,13 @@ export default class TotalStat extends Component {
                     dates: temp_dates,
                     send_persons: temp_send_persons,
                     absent_persons: temp_absent_persons,
+                    avg_send_time: temp_avg_send_time,
+                    total_avg: data.total_avg,
+                    trend: data.trend,
+                    earliest_person: data.earliest_person,
+                    earliest_diff: data.earliest_diff,
+                    latest_person: data.latest_person,
+                    latest_diff: data.latest_diff,
                 });
             }
         ).catch((err) => message.error("Server error!", err))
@@ -76,6 +99,29 @@ export default class TotalStat extends Component {
         return current > moment().endOf('day');
     };
 
+    colorTimeDiff = (diff) => {
+        if (diff === null) {
+            return ''
+        }
+        if (diff[0] === '早') {
+            return <span style={{color: "green"}}>{diff}</span>
+        } else if (diff[0] === '晚') {
+            return <span style={{color: "red"}}>{diff}</span>
+        } else {
+            return <span style={{color: "blue"}}>{diff}</span>
+        }
+    };
+
+    colorTrend = (trend) => {
+        if (trend[0] === '上') {
+            return <span style={{color: "green"}}> {trend}<Trend flag="up" /></span>
+        } else if (trend[0] === '下') {
+            return <span style={{color: "red"}}>{trend}<Trend flag="down" /></span>
+        } else {
+            return <span style={{color: "blue"}}>{trend}</span>
+        }
+    };
+
     getDatePickerShortCut = (shortcut) => {
         let tmp_start_date = this.init_start_date;
         let tmp_end_date = this.init_end_date;
@@ -102,7 +148,26 @@ export default class TotalStat extends Component {
         </Button>
     };
 
-    getOption = () => ({
+    timeValueLabelFormat = (value, index) => {
+        let hour = Math.floor(value / 3600);
+        let minute = Math.floor((value % 3600) / 60);
+        return moment([2019, 1, 1, hour, minute]).format('HH:mm');
+    };
+
+    timeValueTooltipFormat = (params) => {
+        let index = params[0].axisValue;
+        let value = params[0].data;
+        if (isNaN(value)) {
+            return `发报日期：${index}<br/>未记录`;
+        }
+        let hour = Math.floor(value / 3600);
+        let minute = Math.floor((value % 3600) / 60);
+        let second = value % 60;
+        let label = moment([2019, 1, 1, hour, minute, second]).format('HH:mm:ss');
+        return `发报日期：${index}<br/>平均发报时间：${label}`;
+    };
+
+    getBarOption = () => ({
         tooltip: {
             trigger: 'axis',
         },
@@ -138,6 +203,41 @@ export default class TotalStat extends Component {
         ]
     });
 
+    getLineOption = () => ({
+        tooltip: {
+            trigger: 'axis',
+            formatter: this.timeValueTooltipFormat
+        },
+        xAxis: {
+            type: 'category',
+            name: '日期',
+            data: this.state.dates
+        },
+        yAxis: {
+            type: 'value',
+            inverse: true,
+            min: 0,
+            max: 24 * 60 * 60,
+            splitNumber: 8,
+            name: '时间',
+            axisLabel: {
+                formatter: this.timeValueLabelFormat
+            }
+        },
+        series: [
+            {
+                name: '发报时间',
+                type: 'line',
+                itemStyle: {
+                    normal: {
+                        color: '#177CB0'
+                    }
+                },
+                data: this.state.avg_send_time,
+            },
+        ],
+    });
+
     render() {
 
         const {RangePicker} = DatePicker;
@@ -171,8 +271,58 @@ export default class TotalStat extends Component {
                             {this.getDatePickerShortCut('本季度')}
                         </div>
                         <br/>
+                        <div className="card_area">
+                            <Row>
+                                <Col span={8} style={{padding: 20}}>
+                                    <ChartCard
+                                        title="全体员工平均发报时间"
+                                        total={this.state.total_avg}
+                                        footer={
+                                            <div>
+                                                <span>于本周期内呈</span>
+                                                <br/>
+                                                {this.colorTrend(this.state.trend)}
+                                            </div>}
+                                        contentHeight={46}
+                                    />
+                                </Col>
+                                <Col span={8} style={{padding: 20}}>
+                                    <ChartCard
+                                        title="日均发报时间最早员工"
+                                        total={this.state.earliest_person}
+                                        footer={
+                                            <div>
+                                                <span>比平均时间</span>
+                                                <br/>
+                                                {this.colorTimeDiff(this.state.earliest_diff)}
+                                            </div>}
+                                        contentHeight={46}
+                                    />
+                                </Col>
+                                <Col span={8} style={{padding: 20}}>
+                                    <ChartCard
+                                        title="日均发报时间最晚员工"
+                                        total={this.state.latest_person}
+                                        footer={
+                                            <div>
+                                                <span>比平均时间</span>
+                                                <br/>
+                                                {this.colorTimeDiff(this.state.latest_diff)}
+                                            </div>}
+                                        contentHeight={46}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                        <br/>
                         <div className='chart_area'>
-                            <ReactEcharts option={this.getOption()} style={{height: 400}}/>
+                            <h3 className="page_title subtitle">每日晨报发送统计</h3>
+                            <ReactEcharts option={this.getBarOption()} style={{height: 400}}/>
+                        </div>
+                        <br/>
+                        <div className='chart_area'>
+                            <h3 className="page_title subtitle">每日发报平均时间曲线</h3>
+                            <ReactEcharts  option={this.getLineOption()} style={{height: 400}}/>
                         </div>
                     </div>
                 </Content>

@@ -173,11 +173,15 @@ def check_date(start_date_str, end_date_str):
 
 
 def HHmmss_to_sectime(HHmmss):
+    if HHmmss is None:
+        return None
     dt = datetime.datetime.strptime(HHmmss, "%H:%M:%S")
     return dt.hour * 60 * 60 + dt.minute * 60 + dt.second
 
 
 def sectime_to_HHmmss(sectime):
+    if sectime is None:
+        return None
     hour = sectime / 3600
     minute = (sectime % 3600) / 60
     second = sectime % 60
@@ -186,6 +190,8 @@ def sectime_to_HHmmss(sectime):
 
 
 def sectime_diff(st1, st2):
+    if st1 is None or st2 is None:
+        return None
     diff = abs(st1 - st2)
     hour = diff / 3600
     minute = (diff % 3600) / 60
@@ -211,6 +217,67 @@ def sectime_diff(st1, st2):
         return result
 
 
+def get_avg_sectime_table(person_times_table):
+    person_avg_sectime_table = {}
+    for item in person_times_table.items():
+        sectimes = map(HHmmss_to_sectime, item[1])
+        if len(sectimes) == 0:
+            avg_sectime = None
+        else:
+            avg_sectime = sum(sectimes) / len(sectimes)
+        person_avg_sectime_table[item[0]] = avg_sectime
+
+    return person_avg_sectime_table
+
+
+def get_stat_desc(person_avg_sectime_table):
+    all_None = True
+    max_avg_sectime = 0
+    min_avg_sectime = 24 * 60 * 60
+    max_avg_sectime_person = None
+    min_avg_sectime_person = None
+    sum = 0
+    cnt = 0
+    for item in person_avg_sectime_table.items():
+        if item[1] is not None:
+            all_None = False
+            sum += item[1]
+            cnt += 1
+            if item[1] > max_avg_sectime:
+                max_avg_sectime = item[1]
+                max_avg_sectime_person = item[0]
+            if item[1] < min_avg_sectime:
+                min_avg_sectime = item[1]
+                min_avg_sectime_person = item[0]
+    if all_None:
+        desc = dict(total_avg_sectime=None,
+                    max_avg_sectime=None,
+                    max_avg_sectime_person=None,
+                    min_avg_sectime=None,
+                    min_avg_sectime_person=None
+                    )
+    else:
+        total_avg_sectime = sum / cnt
+        desc = dict(total_avg_sectime=total_avg_sectime,
+                    max_avg_sectime=max_avg_sectime,
+                    max_avg_sectime_person=max_avg_sectime_person,
+                    min_avg_sectime=min_avg_sectime,
+                    min_avg_sectime_person=min_avg_sectime_person
+                    )
+    return desc
+
+
+def get_trend(avg_send_times):
+    from algorithms import linear_regression
+    k = linear_regression(avg_send_times)
+    if k > 0:
+        return '下降趋势'
+    elif k < 0:
+        return '上升趋势'
+    else:
+        return '稳定趋势'
+
+
 def person_stat(request):
     """
     request body:
@@ -227,12 +294,10 @@ def person_stat(request):
     {
         "date": ["20191211", "20191212", "20191213"],
         "time": [null, "11:02:09", "13:05:59"],
-        "total_average": "11:30:22",
-        "you_diff": "早1小时20分",
-        "earliest_person": "胡明昊",
-        "earliest_diff": "早2小时18分",
-        "latest_person": "黎吾平",
-        "latest_diff": "晚1小时28分",
+        "total_avg": "11:30:22",
+        "your_avg": "11:19:31",
+        "you_diff": "早11分",
+        "beyond_percentage": "84%"
     }
     """
     if request.method == 'POST':
@@ -262,30 +327,24 @@ def person_stat(request):
                         msg_time = chenbao['time']
             msg_times.append(msg_time)
 
-        person_avg_sectime_table = {}
-        for item in person_times_table.items():
-            sectimes = map(HHmmss_to_sectime, item[1])
-            if len(sectimes) == 0:
-                avg_sectime = 0
-            else:
-                avg_sectime = sum(sectimes) / len(sectimes)
-            person_avg_sectime_table[item[0]] = avg_sectime
-
-        valid_person_avg_sectime = filter(lambda x: x > 0, person_avg_sectime_table.values())
-        if len(valid_person_avg_sectime) == 0:
-            total_average_sectime = 0
+        person_avg_sectime_table = get_avg_sectime_table(person_times_table)
+        desc = get_stat_desc(person_avg_sectime_table)
+        your_avg_sectime = person_avg_sectime_table[name]
+        if your_avg_sectime is not None:
+            sorted_person_avg_sectimes = sorted(filter(lambda x: x is not None, person_avg_sectime_table.values()),
+                                                reverse=True)
+            person_after_you_num = sorted_person_avg_sectimes.index(your_avg_sectime)
+            beyond_percentage = "%d%%" % int((float(person_after_you_num) / len(sorted_person_avg_sectimes)) * 100)
         else:
-            total_average_sectime = sum(valid_person_avg_sectime) / len(valid_person_avg_sectime)
-        earliest_person = min(person_avg_sectime_table, key=person_avg_sectime_table.get)
-        earliest_diff = sectime_diff(person_avg_sectime_table[earliest_person], total_average_sectime)
-        latest_person = max(person_avg_sectime_table, key=person_avg_sectime_table.get)
-        latest_diff = sectime_diff(person_avg_sectime_table[latest_person], total_average_sectime)
-        you_diff = sectime_diff(person_avg_sectime_table[name], total_average_sectime)
-        total_average = sectime_to_HHmmss(total_average_sectime)
+            beyond_percentage = None
 
-        response_dict = dict(date=dates, time=msg_times, total_average=total_average, you_diff=you_diff,
-                             earliest_person=earliest_person, earliest_diff=earliest_diff,
-                             latest_person=latest_person, latest_diff=latest_diff)
+        response_dict = dict(date=dates,
+                             time=msg_times,
+                             total_avg=sectime_to_HHmmss(desc['total_avg_sectime']),
+                             your_avg=sectime_to_HHmmss(your_avg_sectime),
+                             you_diff=sectime_diff(your_avg_sectime, desc['total_avg_sectime']),
+                             beyond_percentage=beyond_percentage)
+
         response_json = json.dumps(response_dict)
 
         return HttpResponse(response_json, content_type="application/json")
@@ -356,6 +415,13 @@ def total_stat(request):
         "total_staff": [30, 31, 31],
         "absent_person": [1, 2, 2],
         "sent_cb_person": [26, 28, 27],
+        "avg_send_time": ["11:18:21", "12:32:45", "15:23:23"],
+        "total_avg": "13:23:56",
+        "trend": "上升趋势",
+        "earliest_person": "胡明昊",
+        "earliest_diff": "早1小时12分",
+        "latest_person": "黎吾平",
+        "latest_diff": "晚2小时42分",
     }
     """
     if request.method == 'POST':
@@ -367,6 +433,11 @@ def total_stat(request):
         total_staffs = []
         absent_persons = []
         sent_cb_persons = []
+        avg_send_times = []
+        avg_send_sectimes = []
+        person_times_table = {}
+        for person in staffs:
+            person_times_table[person] = []
         for date in dates:
             record_path = os.path.join(root_dir, "data/records/%s.json" % date)
             if os.path.exists(record_path):
@@ -375,13 +446,35 @@ def total_stat(request):
                 total_staffs.append(record['total_staff'])
                 absent_persons.append(record['absent'])
                 sent_cb_persons.append(len(record['chenbao_list']))
+                chenbao_list = record['chenbao_list']
+                tmp = map(lambda x: HHmmss_to_sectime(x['time']), chenbao_list)
+                tmp_avg_send_sectime = sum(tmp) / len(tmp)
+                avg_send_sectimes.append(tmp_avg_send_sectime)
+                avg_send_times.append(sectime_to_HHmmss(tmp_avg_send_sectime))
+                for chenbao in chenbao_list:
+                    person_times_table[chenbao['name']].append(chenbao['time'])
+
             else:
                 total_staffs.append(None)
                 absent_persons.append(None)
                 sent_cb_persons.append(None)
+                avg_send_times.append(None)
 
-        response_dict = dict(date=dates, total_staff=total_staffs,
-                             absent_person=absent_persons, sent_cb_person=sent_cb_persons)
+        person_avg_sectime_table = get_avg_sectime_table(person_times_table)
+        desc = get_stat_desc(person_avg_sectime_table)
+
+        response_dict = dict(date=dates,
+                             total_staff=total_staffs,
+                             absent_person=absent_persons,
+                             sent_cb_person=sent_cb_persons,
+                             avg_send_time=avg_send_times,
+                             total_avg=sectime_to_HHmmss(desc['total_avg_sectime']),
+                             trend=get_trend(avg_send_sectimes),
+                             earliest_person=desc["min_avg_sectime_person"],
+                             earliest_diff=sectime_diff(desc["min_avg_sectime"], desc['total_avg_sectime']),
+                             latest_person=desc["max_avg_sectime_person"],
+                             latest_diff=sectime_diff(desc["max_avg_sectime"], desc['total_avg_sectime']))
+
         response_json = json.dumps(response_dict)
 
         return HttpResponse(response_json, content_type="application/json")

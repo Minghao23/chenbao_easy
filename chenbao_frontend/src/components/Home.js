@@ -126,6 +126,34 @@ export default class Home extends Component {
         ).catch((err) => message.error("Server error!", err))
     }
 
+    sendEmail(payload) {
+        let endpoint = 'send_email';
+        fetch('http://' + this.req_host + ':' + this.req_port + '/' + endpoint, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        }).then(res => res.json()).then(
+            data => {
+                if (data.rc === 0) {
+                    message.success("发送成功");
+                    this.setState({
+                        modal_loading: false,
+                        modal_visible: false
+                    });
+                } else {
+                    message.error("发送失败");
+                    this.setState({
+                        modal_loading: false
+                    });
+                }
+            }
+        ).catch((err) => {
+            message.error("Server error!", err);
+            this.setState({
+                modal_loading: false
+            });
+        })
+    }
+
     // ----------------
     // |   Handlers   |
     // ----------------
@@ -200,20 +228,12 @@ export default class Home extends Component {
     };
 
     handleModalSendEmail = () => {
-        // TODO Really send email
         this.setState({modal_loading: true});
-        setTimeout(() => {
-            this.setState({
-                modal_loading: false
-            });
-            message.success("已发送");
-        }, 2000);
-        setTimeout(() => {
-            message.error("哈哈哈骗你的！");
-        }, 5000);
-        setTimeout(() => {
-            message.error("该功能预计于v2.0版本上线")
-        }, 8000);
+        const payload = {
+            'subject': this.state.email_subject,
+            'content': this.state.email_message
+        };
+        this.sendEmail(payload);
     };
 
     handleModalReturn = () => {
@@ -385,11 +405,13 @@ export default class Home extends Component {
                             <Form labelCol={{span: 4}} wrapperCol={{span: 16}}>
                                 <Form.Item label="收件人">
                                     <Input value={this.state.email_to} onChange={this.handleEmailToChange}
-                                           suffix={<Text copyable={{text: this.state.email_to}}/>}/>
+                                           suffix={<Text copyable={{text: this.state.email_to}}/>}
+                                           readOnly={true}/>
                                 </Form.Item>
                                 <Form.Item label="抄送">
                                     <Input value={this.state.email_cc} onChange={this.handleEmailCcChange}
-                                           suffix={<Text copyable={{text: this.state.email_cc}}/>}/>
+                                           suffix={<Text copyable={{text: this.state.email_cc}}/>}
+                                           readOnly={true}/>
                                 </Form.Item>
                                 <Form.Item label="主题">
                                     <Input value={this.state.email_subject} onChange={this.handleEmailSubjectChange}

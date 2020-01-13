@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^person_stat', views.person_stat),
     url(r'^person_history', views.person_history),
     url(r'^total_stat', views.total_stat),
-    url(r'^', views.run),
+    url(r'^send_email', views.send_email),
+    url(r'^chat_recognizer', views.chat_recognizer),
+    # url(r'^', views.run),
 ]

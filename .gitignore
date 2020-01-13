@@ -7,3 +7,7 @@
 node_modules
 venv
 build
+chenbao_service/chenbao/static
+chenbao_service/chenbao/templates
+chenbao_service/data
+chenbao_service/log

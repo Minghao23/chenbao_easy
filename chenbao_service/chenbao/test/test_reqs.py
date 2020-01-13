@@ -196,7 +196,7 @@ def test_generate():
 def test_person_stat():
     url = "http://%s:%s/person_stat" % (host, port)
     d = {
-        "name": "孙文举",
+        "name": "胡明昊",
         "start_date": "20190702",
         "end_date": "20190704",
     }
@@ -231,4 +231,4 @@ def test_total_stat():
     print response.text
 
 
-test_total_stat()
+test_person_stat()

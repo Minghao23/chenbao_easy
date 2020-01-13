@@ -7,6 +7,10 @@ import re
 import codecs
 import os
 import datetime
+import mail
+import loggers
+
+logger = loggers.get_logger()
 
 root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
@@ -60,11 +64,14 @@ def generate_email(request):
         today_str = datetime.datetime.now().strftime("%Y%m%d")
         update_records(today_str, chenbao_list, len(absent_persons))
 
-        to = "rd@yottabyte.cn; presale@yottabyte.cn; postsale@yottabyte.cn;"
-        cc = "chen.jun@yottabyte.cn;"
+        to = "; ".join(mail.To)
+        cc = "; ".join(mail.Cc)
         subject = "北京晨会-%s" % today_str
+        today_format_str = datetime.datetime.now().strftime("%Yn%my%dr")
+        today_format_str = today_format_str.replace('n', '年').replace('y', '月').replace('r', '日')
         message = '\n\n'.join(['[%s]\n%s' % (chenbao['name'], chenbao['content']) for chenbao in chenbao_list])
-        message = '\n发报人数：%d\n请假人员：%s\n\n\n%s' % (len(chenbao_list), ' '.join(absent_persons), message)
+        message = '\n发报日期：%s\n发报人数：%d\n请假人员：%s\n\n\n%s' % \
+                  (today_format_str, len(chenbao_list), ' '.join(absent_persons), message)
 
         response_dict = {'to': to, 'cc': cc, 'subject': subject, 'message': message}
         response_json = json.dumps(response_dict)
@@ -72,9 +79,20 @@ def generate_email(request):
         return HttpResponse(response_json, content_type="application/json")
 
 
+def send_email(request):
+    if request.method == 'POST':
+        dct = json.loads(request.body)
+        subject = dct['subject']
+        content = dct['content']
+        rc = mail.send_email(subject, content)
+
+        response_json = json.dumps({'rc': rc})
+        return HttpResponse(response_json, content_type="application/json")
+
+
 def get_chenbao_list(chat_content):
     pattern_header = re.compile(ur'\S*\s{2}\d{2}:\d{2}:\d{2}\n')
-    pattern_recall = re.compile(ur'.*撤回了一条消息.*\n')
+    pattern_recall = re.compile(ur'.*((撤回了一条消息)|(recalled a message)).*\n')
     pattern_change = re.compile(ur'.*((加入群)|(退出群)|(移出群))\n')
 
     with codecs.open('data/staffs.json') as f:
@@ -102,6 +120,8 @@ def get_chenbao_list(chat_content):
             name = cb[:2]
         elif len(cb) >= 3 and cb[:3] in staffs:
             name = cb[:3]
+        elif cb[:9] == 'Catherine' or cb[:9] == 'catherine':
+            name = 'Catherine'
         else:
             continue
 
@@ -322,6 +342,8 @@ def person_stat(request):
                     record = json.load(f)
                 chenbao_list = record['chenbao_list']
                 for chenbao in chenbao_list:
+                    if chenbao['name'] not in staffs:
+                        continue  # staff no longer here
                     person_times_table[chenbao['name']].append(chenbao['time'])
                     if chenbao['name'] == name:
                         msg_time = chenbao['time']
@@ -387,6 +409,8 @@ def person_history(request):
                     record = json.load(f)
                 chenbao_list = record['chenbao_list']
                 for chenbao in chenbao_list:
+                    if chenbao['name'] not in staffs:
+                        continue  # staff no longer here
                     if chenbao['name'] == name:
                         content = chenbao['content']
                         break
@@ -452,6 +476,8 @@ def total_stat(request):
                 avg_send_sectimes.append(tmp_avg_send_sectime)
                 avg_send_times.append(sectime_to_HHmmss(tmp_avg_send_sectime))
                 for chenbao in chenbao_list:
+                    if chenbao['name'] not in staffs:
+                        continue  # staff no longer here
                     person_times_table[chenbao['name']].append(chenbao['time'])
 
             else:
@@ -480,5 +506,21 @@ def total_stat(request):
         return HttpResponse(response_json, content_type="application/json")
 
 
-def run(request, **kwargs):
-    return render(request, 'index.html')
+def chat_recognizer(request):
+    if request.method == 'GET':
+        from chenbao.features.chat_recognizer.model import ChatRecognizer
+        cr = ChatRecognizer()
+        cr.load()
+        doc = request.GET.get('chat')
+        logger.debug(doc)
+        labels, probs = cr.test_one(doc)
+        meaningful_label = ['否', '是']
+        print_label = meaningful_label[labels[0]]
+        print_prob = probs[0]
+        result = "Predict: %s (%.2f%%)  --- 「%s」" % (print_label, print_prob * 100, doc)
+
+        return HttpResponse(result, content_type="text/html", charset='utf-8')
+
+
+# def run(request, **kwargs):
+#     return render(request, 'index.html')

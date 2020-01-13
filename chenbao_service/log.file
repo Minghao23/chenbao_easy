@@ -1,203 +1,46 @@
-[27/Jul/2019 16:42:51] "GET / HTTP/1.1" 200 2100
-[27/Jul/2019 16:42:51] "GET /static/js/main.9353db0c.chunk.js HTTP/1.1" 200 28059
-[27/Jul/2019 16:42:51] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:42:51] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:42:51] "GET /manifest.json HTTP/1.1" 200 2100
-[27/Jul/2019 16:42:53] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:42:53] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:43:49] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:44:18] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:44:18] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:44:24] "POST /person_stat HTTP/1.1" 200 303
-[27/Jul/2019 16:44:41] "POST /person_stat HTTP/1.1" 200 669
-[27/Jul/2019 16:44:54] "POST /person_stat HTTP/1.1" 200 676
-[27/Jul/2019 16:45:05] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:45:05] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:45:10] "POST /person_history HTTP/1.1" 200 2023
-[27/Jul/2019 16:45:34] "POST /person_history HTTP/1.1" 200 1645
-[27/Jul/2019 16:45:43] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:45:43] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:45:44] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:45:44] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:45:45] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:45:45] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:45:49] "POST /person_stat HTTP/1.1" 200 316
-[27/Jul/2019 16:46:20] "POST /person_stat HTTP/1.1" 200 316
-[27/Jul/2019 16:46:26] "POST /person_stat HTTP/1.1" 200 106
-[27/Jul/2019 16:46:34] "POST /person_stat HTTP/1.1" 200 172
-[27/Jul/2019 16:46:43] "POST /person_stat HTTP/1.1" 200 4948
-[27/Jul/2019 16:47:03] "POST /person_stat HTTP/1.1" 200 4935
-[27/Jul/2019 16:47:13] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:47:13] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:47:15] "POST /total_stat HTTP/1.1" 200 2687
-[27/Jul/2019 16:47:18] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:47:22] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:47:23] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:47:33] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:47:38] "POST /total_stat HTTP/1.1" 200 2687
-[27/Jul/2019 16:47:42] "POST /total_stat HTTP/1.1" 200 436
-[27/Jul/2019 16:47:46] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:47:47] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:47:49] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:47:49] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:47:52] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:47:57] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:48:15] "GET /TotalStat HTTP/1.1" 200 2100
-[27/Jul/2019 16:48:15] "GET /static/js/main.9353db0c.chunk.js HTTP/1.1" 304 0
-[27/Jul/2019 16:48:16] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:48:16] "GET /manifest.json HTTP/1.1" 200 2100
-[27/Jul/2019 16:48:16] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:48:18] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:48:56] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:49:23] "POST /total_stat HTTP/1.1" 200 2687
-[27/Jul/2019 16:49:25] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:49:33] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:49:45] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:50:00] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:50:07] "POST /total_stat HTTP/1.1" 200 413
-[27/Jul/2019 16:50:15] "GET /init HTTP/1.1" 200 694
-[27/Jul/2019 16:50:15] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:50:23] "POST /total_stat HTTP/1.1" 200 574
-[27/Jul/2019 16:50:23] "GET /favicon.ico HTTP/1.1" 200 2100
-[27/Jul/2019 16:50:54] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:51:05] "POST /total_stat HTTP/1.1" 200 2651
-[27/Jul/2019 16:51:09] "POST /total_stat HTTP/1.1" 200 1139
-[27/Jul/2019 16:51:30] "POST /total_stat HTTP/1.1" 200 413
-[29/Jul/2019 02:02:46] "GET / HTTP/1.1" 200 2100
-[29/Jul/2019 02:02:46] "GET /static/css/main.ca841957.chunk.css HTTP/1.1" 200 1641
-[29/Jul/2019 02:02:46] "GET /static/js/main.9353db0c.chunk.js HTTP/1.1" 304 0
-[29/Jul/2019 02:02:46] "GET /static/css/2.cfd5e784.chunk.css HTTP/1.1" 200 464367
-[29/Jul/2019 02:02:46] "GET /static/js/2.d2e1afb5.chunk.js HTTP/1.1" 200 3441995
-[29/Jul/2019 02:02:47] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:02:47] "GET /manifest.json HTTP/1.1" 200 2100
-[29/Jul/2019 02:02:47] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:03:13] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:03:13] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:03:20] "POST /person_history HTTP/1.1" 200 1660
-[29/Jul/2019 02:03:27] "POST /person_history HTTP/1.1" 200 5009
-[29/Jul/2019 02:03:31] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:03:31] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:03:34] "POST /person_stat HTTP/1.1" 200 297
-[29/Jul/2019 02:04:10] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:04:10] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:04:21] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:04:21] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:04:23] "POST /person_stat HTTP/1.1" 200 303
-[29/Jul/2019 02:04:37] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:04:37] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:04:42] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:04:42] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:04:43] "POST /person_stat HTTP/1.1" 200 303
-[29/Jul/2019 02:04:48] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:04:48] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:04:55] "POST /total_stat HTTP/1.1" 200 413
-[29/Jul/2019 02:04:57] "POST /total_stat HTTP/1.1" 200 1139
-[29/Jul/2019 02:04:59] "POST /total_stat HTTP/1.1" 200 413
-[29/Jul/2019 02:05:02] "POST /total_stat HTTP/1.1" 200 1139
-[29/Jul/2019 02:05:22] "POST /total_stat HTTP/1.1" 200 2687
-[29/Jul/2019 02:05:23] "POST /total_stat HTTP/1.1" 200 413
-[29/Jul/2019 02:05:25] "POST /total_stat HTTP/1.1" 200 1139
-[29/Jul/2019 02:05:27] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:06:36] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:06:36] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:06:51] "POST /person_stat HTTP/1.1" 200 283
-[29/Jul/2019 02:07:11] "POST /person_stat HTTP/1.1" 200 291
-[29/Jul/2019 02:07:34] "POST /person_stat HTTP/1.1" 200 291
-[29/Jul/2019 02:07:53] "POST /person_stat HTTP/1.1" 200 297
-[29/Jul/2019 02:08:02] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:08:02] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:08:08] "POST /person_history HTTP/1.1" 200 1468
-[29/Jul/2019 02:08:51] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:08:51] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:08:53] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:08:53] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:34] "GET /TotalStat HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:34] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:16:34] "GET /manifest.json HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:34] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:35] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:16:35] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:38] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:16:38] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:39] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:16:39] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:40] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:16:40] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:41] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:16:41] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:16:56] "POST /person_history HTTP/1.1" 200 1660
-[29/Jul/2019 02:22:27] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:22:27] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:22:48] "POST /total_stat HTTP/1.1" 200 401
-[29/Jul/2019 02:22:52] "POST /total_stat HTTP/1.1" 200 305
-[29/Jul/2019 02:23:29] "POST /total_stat HTTP/1.1" 200 305
-[29/Jul/2019 02:23:31] "POST /total_stat HTTP/1.1" 200 269
-[29/Jul/2019 02:23:45] "POST /total_stat HTTP/1.1" 200 413
-[29/Jul/2019 02:24:52] "POST /total_stat HTTP/1.1" 200 1139
-[29/Jul/2019 02:32:47] "POST /total_stat HTTP/1.1" 200 269
-[29/Jul/2019 02:32:51] "POST /total_stat HTTP/1.1" 200 243
-[29/Jul/2019 02:33:00] "POST /total_stat HTTP/1.1" 200 305
-[29/Jul/2019 02:33:18] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:33:18] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:33:19] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:33:19] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:33:21] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:33:21] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:34:13] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:34:13] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:34:52] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:34:52] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:34:54] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:34:54] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:34:59] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:34:59] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:35:54] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:35:54] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:35:54] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:35:54] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:35:55] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:35:55] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:35:56] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:35:56] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:20] "GET / HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:21] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:45:21] "GET /manifest.json HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:21] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:23] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:45:23] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:25] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:45:25] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:30] "POST /person_stat HTTP/1.1" 200 283
-[29/Jul/2019 02:45:34] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:45:34] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:45:36] "POST /person_history HTTP/1.1" 200 648
-[29/Jul/2019 02:45:52] "POST /person_history HTTP/1.1" 200 2571
-[29/Jul/2019 02:46:28] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:46:28] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:47:14] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:47:14] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:48:30] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:30] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:31] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:31] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:32] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:32] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:47] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:47] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:48] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:48] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:49] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:48:49] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:48:51] "POST /person_stat HTTP/1.1" 200 308
-[29/Jul/2019 02:53:16] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:53:16] "POST /total_stat HTTP/1.1" 200 577
-[29/Jul/2019 02:53:19] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:53:19] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:53:22] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:53:22] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:53:23] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:53:23] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:56:26] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:56:26] "GET /favicon.ico HTTP/1.1" 200 2100
-[29/Jul/2019 02:56:27] "GET /init HTTP/1.1" 200 694
-[29/Jul/2019 02:56:27] "GET /favicon.ico HTTP/1.1" 200 2100
+Performing system checks...
+
+Traceback (most recent call last):
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/manage.py", line 22, in <module>
+    execute_from_command_line(sys.argv)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/__init__.py", line 364, in execute_from_command_line
+    utility.execute()
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/__init__.py", line 356, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/base.py", line 283, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/commands/runserver.py", line 61, in execute
+    super(Command, self).execute(*args, **options)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/base.py", line 330, in execute
+    output = self.handle(*args, **options)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/commands/runserver.py", line 100, in handle
+    self.run(**options)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/commands/runserver.py", line 111, in run
+    self.inner_run(None, **options)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/commands/runserver.py", line 124, in inner_run
+    self.check(display_num_errors=True)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/base.py", line 359, in check
+    include_deployment_checks=include_deployment_checks,
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/management/base.py", line 346, in _run_checks
+    return checks.run_checks(**kwargs)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/checks/registry.py", line 81, in run_checks
+    new_errors = check(app_configs=app_configs)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/checks/urls.py", line 16, in check_url_config
+    return check_resolver(resolver)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/core/checks/urls.py", line 26, in check_resolver
+    return check_method()
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/urls/resolvers.py", line 256, in check
+    for pattern in self.url_patterns:
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/urls/resolvers.py", line 407, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/utils/functional.py", line 35, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/venv/lib/python2.7/site-packages/django/urls/resolvers.py", line 400, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/hmh/Project/chenbao_easy/chenbao_service/chenbao_service/urls.py", line 30, in <module>
+    url(r'^', views.run),
+AttributeError: 'module' object has no attribute 'run'

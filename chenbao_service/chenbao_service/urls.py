@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 # from django.contrib import admin
 from chenbao import views
+# from chenbao import req_dispatcher
+from chenbao.features.coolq_apis import server
 
 urlpatterns = [
     url(r'^init', views.get_init_data),
@@ -27,5 +29,8 @@ urlpatterns = [
     url(r'^total_stat', views.total_stat),
     url(r'^send_email', views.send_email),
     url(r'^chat_recognizer', views.chat_recognizer),
-    # url(r'^', views.run),
+    # url(r'^dist', req_dispatcher.test_distribution),
+    url(r'^api/message', server.server),
+    url(r'^kpi/detect', views.test_django),
+    url(r'^', views.run),
 ]

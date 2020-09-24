@@ -231,4 +231,19 @@ def test_total_stat():
     print response.text
 
 
-test_person_stat()
+def test_distribution(id):
+    import random
+    cur_port = random.choice(['8012'])
+    url = "http://%s:%s/dist" % (host, cur_port)
+    d = {
+        "id": id,
+    }
+    payload = json.dumps(d, ensure_ascii=False)
+    headers = {'content-type': "application/json"}
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print response.text
+
+
+# for i in range(1, 100):
+#     test_distribution(i)
+test_distribution(1)

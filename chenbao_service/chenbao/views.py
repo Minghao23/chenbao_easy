@@ -14,7 +14,7 @@ logger = loggers.get_logger()
 
 root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-with codecs.open('data/staffs.json') as f:
+with codecs.open(os.path.join(root_dir, 'data/staffs.json')) as f:
     staffs = json.load(f)['staffs']
 
 
@@ -95,7 +95,7 @@ def get_chenbao_list(chat_content):
     pattern_recall = re.compile(ur'.*((撤回了一条消息)|(recalled a message)).*\n')
     pattern_change = re.compile(ur'.*((加入群)|(退出群)|(移出群))\n')
 
-    with codecs.open('data/staffs.json') as f:
+    with codecs.open(os.path.join(root_dir, 'data/staffs.json')) as f:
         staffs = json.load(f)["staffs"]
 
     out = re.sub(pattern_recall, "", chat_content)
@@ -450,60 +450,114 @@ def total_stat(request):
     """
     if request.method == 'POST':
         dct = json.loads(request.body)
-        start_date_str = dct.get('start_date')
-        end_date_str = dct.get('end_date')
-
-        dates = check_date(start_date_str, end_date_str)
-        total_staffs = []
-        absent_persons = []
-        sent_cb_persons = []
-        avg_send_times = []
-        avg_send_sectimes = []
-        person_times_table = {}
-        for person in staffs:
-            person_times_table[person] = []
-        for date in dates:
-            record_path = os.path.join(root_dir, "data/records/%s.json" % date)
-            if os.path.exists(record_path):
-                with codecs.open(record_path) as f:
-                    record = json.load(f)
-                total_staffs.append(record['total_staff'])
-                absent_persons.append(record['absent'])
-                sent_cb_persons.append(len(record['chenbao_list']))
-                chenbao_list = record['chenbao_list']
-                tmp = map(lambda x: HHmmss_to_sectime(x['time']), chenbao_list)
-                tmp_avg_send_sectime = sum(tmp) / len(tmp)
-                avg_send_sectimes.append(tmp_avg_send_sectime)
-                avg_send_times.append(sectime_to_HHmmss(tmp_avg_send_sectime))
-                for chenbao in chenbao_list:
-                    if chenbao['name'] not in staffs:
-                        continue  # staff no longer here
-                    person_times_table[chenbao['name']].append(chenbao['time'])
-
-            else:
-                total_staffs.append(None)
-                absent_persons.append(None)
-                sent_cb_persons.append(None)
-                avg_send_times.append(None)
-
-        person_avg_sectime_table = get_avg_sectime_table(person_times_table)
-        desc = get_stat_desc(person_avg_sectime_table)
-
-        response_dict = dict(date=dates,
-                             total_staff=total_staffs,
-                             absent_person=absent_persons,
-                             sent_cb_person=sent_cb_persons,
-                             avg_send_time=avg_send_times,
-                             total_avg=sectime_to_HHmmss(desc['total_avg_sectime']),
-                             trend=get_trend(avg_send_sectimes),
-                             earliest_person=desc["min_avg_sectime_person"],
-                             earliest_diff=sectime_diff(desc["min_avg_sectime"], desc['total_avg_sectime']),
-                             latest_person=desc["max_avg_sectime_person"],
-                             latest_diff=sectime_diff(desc["max_avg_sectime"], desc['total_avg_sectime']))
-
+        response_dict = total_stat_helper(dct)
         response_json = json.dumps(response_dict)
 
         return HttpResponse(response_json, content_type="application/json")
+
+
+def total_stat_helper(dct):
+    start_date_str = dct.get('start_date')
+    end_date_str = dct.get('end_date')
+
+    dates = check_date(start_date_str, end_date_str)
+    total_staffs = []
+    absent_persons = []
+    sent_cb_persons = []
+    avg_send_times = []
+    avg_send_sectimes = []
+    person_times_table = {}
+    for person in staffs:
+        person_times_table[person] = []
+    for date in dates:
+        record_path = os.path.join(root_dir, "data/records/%s.json" % date)
+        if os.path.exists(record_path):
+            with codecs.open(record_path) as f:
+                record = json.load(f)
+            total_staffs.append(record['total_staff'])
+            absent_persons.append(record['absent'])
+            sent_cb_persons.append(len(record['chenbao_list']))
+            chenbao_list = record['chenbao_list']
+            tmp = map(lambda x: HHmmss_to_sectime(x['time']), chenbao_list)
+            tmp_avg_send_sectime = sum(tmp) / len(tmp)
+            avg_send_sectimes.append(tmp_avg_send_sectime)
+            avg_send_times.append(sectime_to_HHmmss(tmp_avg_send_sectime))
+            for chenbao in chenbao_list:
+                if chenbao['name'] not in staffs:
+                    continue  # staff no longer here
+                person_times_table[chenbao['name']].append(chenbao['time'])
+
+        else:
+            total_staffs.append(None)
+            absent_persons.append(None)
+            sent_cb_persons.append(None)
+            avg_send_times.append(None)
+
+    person_avg_sectime_table = get_avg_sectime_table(person_times_table)
+    desc = get_stat_desc(person_avg_sectime_table)
+
+    response_dict = dict(date=dates,
+                         total_staff=total_staffs,
+                         absent_person=absent_persons,
+                         sent_cb_person=sent_cb_persons,
+                         avg_send_time=avg_send_times,
+                         total_avg=sectime_to_HHmmss(desc['total_avg_sectime']),
+                         trend=get_trend(avg_send_sectimes),
+                         earliest_person=desc["min_avg_sectime_person"],
+                         earliest_diff=sectime_diff(desc["min_avg_sectime"], desc['total_avg_sectime']),
+                         latest_person=desc["max_avg_sectime_person"],
+                         latest_diff=sectime_diff(desc["max_avg_sectime"], desc['total_avg_sectime']))
+    return response_dict
+
+
+def stat_rank(dct):
+    """
+    START: copy the first part of total_stat_helper for temporary use
+    """
+    start_date_str = dct.get('start_date')
+    end_date_str = dct.get('end_date')
+
+    dates = check_date(start_date_str, end_date_str)
+    total_staffs = []
+    absent_persons = []
+    sent_cb_persons = []
+    avg_send_times = []
+    avg_send_sectimes = []
+    person_times_table = {}
+    for person in staffs:
+        person_times_table[person] = []
+    for date in dates:
+        record_path = os.path.join(root_dir, "data/records/%s.json" % date)
+        if os.path.exists(record_path):
+            with codecs.open(record_path) as f:
+                record = json.load(f)
+            total_staffs.append(record['total_staff'])
+            absent_persons.append(record['absent'])
+            sent_cb_persons.append(len(record['chenbao_list']))
+            chenbao_list = record['chenbao_list']
+            tmp = map(lambda x: HHmmss_to_sectime(x['time']), chenbao_list)
+            tmp_avg_send_sectime = sum(tmp) / len(tmp)
+            avg_send_sectimes.append(tmp_avg_send_sectime)
+            avg_send_times.append(sectime_to_HHmmss(tmp_avg_send_sectime))
+            for chenbao in chenbao_list:
+                if chenbao['name'] not in staffs:
+                    continue  # staff no longer here
+                person_times_table[chenbao['name']].append(chenbao['time'])
+
+        else:
+            total_staffs.append(None)
+            absent_persons.append(None)
+            sent_cb_persons.append(None)
+            avg_send_times.append(None)
+
+    person_avg_sectime_table = get_avg_sectime_table(person_times_table)
+    """
+    END: copy the first part of total_stat_helper for temporary use
+    """
+    rank = sorted(person_avg_sectime_table.items(), key=lambda x: x[1])
+    top_ten_sectime = rank[:10]
+    top_ten = [(x[0], sectime_to_HHmmss(x[1])) for x in top_ten_sectime]
+    return top_ten
 
 
 def chat_recognizer(request):
@@ -522,5 +576,16 @@ def chat_recognizer(request):
         return HttpResponse(result, content_type="text/html", charset='utf-8')
 
 
-# def run(request, **kwargs):
-#     return render(request, 'index.html')
+def test_distribution(request):
+    if request.method == 'POST':
+        id = json.loads(request.body)['id']
+        return HttpResponse('This is %s' % id, content_type="text/html")
+
+
+def test_django(request):
+    if request.method == 'POST':
+        return HttpResponse(json.dumps({'rc': 0}), content_type="application/json")
+
+
+def run(request, **kwargs):
+    return render(request, 'index.html')

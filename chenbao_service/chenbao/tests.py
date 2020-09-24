@@ -6,6 +6,7 @@ import datetime
 
 # Create your tests here.
 
+
 def check_date(start_date_str, end_date_str):
     if end_date_str is None:
         end_date = datetime.datetime.today()

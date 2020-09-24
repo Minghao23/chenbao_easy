@@ -10,12 +10,16 @@ logger = loggers.get_logger()
 
 To = ["rd@yottabyte.cn", "presale@yottabyte.cn", "postsale@yottabyte.cn"]
 Cc = ["chen.jun@yottabyte.cn"]
+# To = ["751948630@qq.com"]
+# Cc = ["hu_minghao@outlook.com"]
 
 
 def send_email(subject, content):
     smtp_server = "smtp.exmail.qq.com"
     username = "tools@yottabyte.cn"
     password = "UtOiRnil&.4Co"
+    # username = "hu.minghao@yottabyte.cn"
+    # password = "Hmh931028*"
 
     chenbao_ad = u"\n\n------------------------------------------------\n" \
                  u"晨报易 - 晨报处理更容易  http://192.168.1.160:8012 "
